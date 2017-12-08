@@ -1,0 +1,55 @@
+body {
+	background-color:white;
+	font-family:"Arial";
+}
+
+.user-tile * {
+	font-family:"Trebuchet MS";
+	border: 1px solid #190707;
+    border-radius: 4px;
+    padding: 6px;
+    margin: 4px 0;
+    width: 150px;
+    height: 36px !important;
+    text-align: center;
+    color: white;
+    font-size: 15px;
+}
+
+.error {
+	color:white;
+	font-family:"Trebuchet MS";
+	background-color:#FF5555;
+	border:solid;
+	border-color:#FF5555;
+	border-radius:5px;
+	margin:auto;
+}
+
+.NoPerm {
+	color:white;
+	font-family:"Trebuchet MS";
+	background-color:#FF5555;
+	border:solid;
+	border-color:#FF5555;
+	border-radius:5px;
+	margin:auto;
+}
+
+
+
+.user-tile #User {
+	background-color: gray;
+}
+
+.user-tile #Developer {
+	background-color: cyan;
+}
+
+.user-tile #Adminstrator {
+	background-color: red;
+}
+
+.trebuchet {
+	font-family:"Trebuchet MS","Arial",sans-serif;
+}
