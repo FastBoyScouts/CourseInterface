@@ -63,9 +63,9 @@ class UserProfile extends ClassCore {
 		return $this->role_tile;
 	}
 
-	public function getAvatarUrl() {
+	public function getAvatarUrl($size="200") {
 		$mail_hash = md5(strtolower(trim($this->email)));
-		return "https://www.gravatar.com/avatar/".$mail_hash."?d=robohash&s=200";
+		return "https://www.gravatar.com/avatar/".$mail_hash."?d=robohash&s=".htmlspecialchars($size);
 	}
 
 	public function getFormattedName() {

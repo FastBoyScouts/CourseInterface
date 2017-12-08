@@ -126,10 +126,20 @@ class User extends ClassCore {
 			if(mysqli_num_rows($result) >= 1) {
 				return true;
 			} else {
-				return false;
+				$result = $this->db->query("SELECT * FROM permissions WHERE role='".$userdata["role"]."' AND active=1 AND permission='*';");
+				if(mysqli_num_rows($result) >= 1) {
+					return true;
+				} else {
+					return false;
+				}
 			}
 		} else {
-			return false;
+			$result = $this->db->query("SELECT * FROM permissions WHERE role='guest' AND active=1 AND permission='".$permission."';");
+			if(mysqli_num_rows($result) >= 1) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 

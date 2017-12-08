@@ -8,11 +8,14 @@
 	<meta name="viewport"  content="width=device-width,initial-scale=1,user-scalable=yes">
 	<title><?php echo $config["site-title"]; ?></title>
 
+
 <!--
-<link rel="stylesheet" href="/static/lib/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-    <script src="/static/lib/jquery/3.2.1-new/jquery-3.2.1.min.js"></script>
-    <script src="/static/lib/popperjs/popper.min.js"></script>
-    <script src="/static/lib/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>-->
+<link rel="stylesheet" href="http://localhost/static/lib/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <script src="http://localhos/static/lib/jquery/3.2.1-new/jquery-3.2.1.min.js"></script>
+    <script src="http://localhos/static/lib/popperjs/popper.min.js"></script>
+    <script src="http://localhos/static/lib/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    -->
+    
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
