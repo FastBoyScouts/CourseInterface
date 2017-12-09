@@ -17,6 +17,7 @@ class User extends ClassCore {
 	private $address;
 	private $city;
 	private $plz;
+	private $uid;
 
 	public function __construct() {
 		$this->initClass("User",true);
@@ -25,9 +26,16 @@ class User extends ClassCore {
 		$this->logged_in = false;
 	}
 
-	public function applyTokens($uid, $security_token) {
+	public function applyTokens($uid, $security_token,$respond=true) {
 		$result = $this->db->query("SELECT * FROM security_tokens WHERE uid=".mysqli_escape_string($this->db->getConnection(),$uid)." AND security_token='".mysqli_escape_string($this->db->getConnection(),$security_token)."';");
 		if(mysqli_num_rows($result) == 1) {
+			foreach($result as $row) {
+				if($row["valid"] == 0) {
+					echo '<script>alert("Ihre Sitzung ist abgelaufen. Bitte melden sie sich erneut an.");window.location.href="/account/login";</script>';
+					session_destroy();
+					return false;
+				}
+			}
 			$this->logged_in = true;
 			$result2 = $this->db->query("SELECT * FROM users WHERE id=".mysqli_escape_string($this->db->getConnection(),$uid).";");
 			foreach($result2 as $row2) {
@@ -40,6 +48,7 @@ class User extends ClassCore {
 				$this->address = $row2["address"];
 				$this->city = $row2["city"];
 				$this->plz = $row2["plz"];
+				$this->uid = $row2["id"];
 			}
 			return true;
 		} else {
@@ -55,26 +64,33 @@ class User extends ClassCore {
 	public function login($username, $password) {
 		$username_temp = mysqli_escape_string($this->db->getConnection(), $username);
 		$password_temp = mysqli_escape_string($this->db->getConnection(), $password);
-		$result = $this->db->query("SELECT password FROM users WHERE username = '".$username_temp."';");
+		$result = $this->db->query("SELECT * FROM users WHERE username = '".$username_temp."' LIMIT 1;");
 		if(mysqli_num_rows($result) == 1) {
 			foreach($result as $row) {
 				$password_queried = $row["password"];
+				$blocked = $row["blocked"];
 			}
 			if(password_verify($password_temp, $password_queried)) {
-				$result2 = $this->db->query("SELECT * FROM users WHERE username = '".$username."' LIMIT 1;");
-				foreach($result2 as $row2) {
-					$security_token = random_bytes(16);
-					$this->db->query("INSERT INTO security_tokens (uid, security_token, created) VALUES (".$row2["id"].",'".$security_token."',NOW());");
-					$_SESSION["security_token"] = $security_token;
-					$_SESSION["user_id"] = $row2["id"];
-					$this->applyTokens($row2["id"],$security_token);
-					return true;
+				if($blocked != 1) {
+					$result2 = $result;
+					foreach($result2 as $row2) {
+						$security_token = bin2hex(random_bytes(16));
+						$this->db->query("UPDATE `security_tokens` SET valid=0 WHERE uid=".$row2["id"].";");
+						$this->db->query("INSERT INTO security_tokens (uid, security_token, created,valid) VALUES (".$row2["id"].",'".$security_token."',NOW(),1);");
+						$_SESSION["security_token"] = $security_token;
+						$_SESSION["user_id"] = $row2["id"];
+						$this->applyTokens($row2["id"],$security_token);
+						return "loggedin";
+					}
+				} else {
+					return "blocked";
 				}
+				
 			} else {
-				return false;
+				return "password";
 			}
 		} else {
-			return false;
+			return "username";
 		}
 	}
 
@@ -96,7 +112,7 @@ class User extends ClassCore {
 		if(mysqli_num_rows($q1) == 0) {
 			$sql = "INSERT INTO users (username,password,email,anrede,firstname,lastname,role,registered,last_activity) VALUES ('".$username_temp."','".$password_temp."','".$email_temp."','".$anrede_temp."','".$firstname_temp."','".$lastname_temp."','user',NOW(),NOW());";
 			$q2 = $this->db->query($sql);
-			return true;
+			return "ok";
 		} else {
 			return "username-existing";
 		}
@@ -114,10 +130,15 @@ class User extends ClassCore {
 			$userdata["address"] = $this->address;
 			$userdata["city"] = $this->city;
 			$userdata["plz"] = $this->plz;
+			$userdata["id"] = $this->uid;
 			return $userdata;
 		} else {
 			return false;
 		}
+	}
+
+	public function getId() {
+		return $this->getUserData()["id"];
 	}
 
 	public function hasPermission($permission) {
@@ -130,7 +151,12 @@ class User extends ClassCore {
 				if(mysqli_num_rows($result) >= 1) {
 					return true;
 				} else {
-					return false;
+					$result = $this->db->query("SELECT * FROM permissions WHERE role='guest' AND active=1 AND permission='".$permission."';");
+					if(mysqli_num_rows($result) >= 1) {
+						return true;
+					} else {
+						return false;
+					}
 				}
 			}
 		} else {

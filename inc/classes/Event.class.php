@@ -42,7 +42,7 @@ class Event extends ClassCore {
 				if(mysqli_num_rows($query2) == 1) {
 					foreach($query2 as $row) {
 						$userProfile =  new UserProfile($row["username"]);
-						$this->data["creator_name"] = "&nbsp;<a href='/profile.php?uid=".$userProfile->getUsername()."' target='_blank'>".$userProfile->getFormattedName()."</a>";
+						$this->data["creator_name"] = "&nbsp;<a href='/user/".$userProfile->getUsername()."/profile' target='_blank'>".$userProfile->getFormattedName()."</a>";
 					}
 				} else {
 					$this->data["creator_name"] = "&nbsp;<span style='color:red;'>Unknown</span>";

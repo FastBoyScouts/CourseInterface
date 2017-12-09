@@ -7,18 +7,14 @@
 	<meta name="generator" content="MarvNet's course-interface">
 	<meta name="viewport"  content="width=device-width,initial-scale=1,user-scalable=yes">
 	<title><?php echo $config["site-title"]; ?></title>
-
-
-<!--
-<link rel="stylesheet" href="http://localhost/static/lib/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-    <script src="http://localhos/static/lib/jquery/3.2.1-new/jquery-3.2.1.min.js"></script>
-    <script src="http://localhos/static/lib/popperjs/popper.min.js"></script>
-    <script src="http://localhos/static/lib/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-    -->
-    
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/static/lib/bootstrap/v4-imported/css/bootstrap.min.css">
+  <script src="/static/lib/jquery/3.2.1-new/jquery-3.2.1.min.js"></script>
+  <script src="/static/lib/popperjs/popper.min.js"></script>
+  <script src="/static/lib/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+  <script src="/static/lib/fontawesome-free-5.0.1/svg-with-js/js/fontawesome-all.min.js"></script>
     
 	<style>
     <?php echo(file_get_contents($_SERVER["DOCUMENT_ROOT"]."/static/css/app.css")); ?>
@@ -48,17 +44,60 @@
       		?>	
       	</ul>	
       </li>
+      <?php
+        $adminFrames = 0;
+        $admin = array();
+        $admin["users"] = false;
+        $admin["permissions"] = false;
 
+        if($user->hasPermission("admin.users")) {
+          ++$adminFrames;
+          $admin["users"] = true;
+        }
+
+        if($user->hasPermission("admin.permissions")) {
+          ++$adminFrames;
+          $admin["permissions"] = true;
+        }
+
+        if($adminFrames >= 1) {
+        ?>
+        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <?php if($admin["users"]) { ?>
+            <li><a href="/acp/users">Nutzerverwaltung</a></li>
+            <?php
+          }
+          if( $admin["permissions"]) {
+          ?>
+          <li><a href="/acp/permissions">Rechteverwaltung</a></li>
+          <?php
+        }
+        ?>
+          </ul>
+        </li>
+
+        <?php
+      }
+      ?>
     </ul>
     <?php
       if(!$loggedIn) {
       ?>
       <ul class="nav navbar-nav navbar-right">
-      	<li><a href="/account/register?goto=<?= $_SERVER['PHP_SELF']; ?>"><span class="glyphicon glyphicon-user"></span> Registrieren</a></li>
-      	<li><a href="/account/login?goto=<?= $_SERVER['PHP_SELF']; ?>"><span class="glyphicon glyphicon-log-in"></span> Anmelden</a></li>
+      	<li><a href="/account/register?goto=<?= $_SERVER['PHP_SELF']; ?>"><i class="far fa-user"></i> Registrieren</a></li>
+      	<li><a href="/account/login?goto=<?= $_SERVER['PHP_SELF']; ?>"><i class="fas fa-user"></i> Anmelden</a></li>
       </ul>
       <?php
-  		}
+  		} else {
   	?>
+<ul class="nav navbar-nav navbar-right">
+        <li><?php
+        $temp = new UserProfile($user->getId(),"id");
+        echo $temp->getRoleTile(); ?></li>
+      </ul>
+    <?php
+  }
+  ?>
   </div>
 </nav>

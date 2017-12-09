@@ -8,21 +8,35 @@ class UserProfile extends ClassCore {
 	private $logged_in;
 	private $email;
 	private $color;
+	private $blocked;
+	private $role;
 
 	private function buildTile($id,$role_title) {
 		return '<div class="user-tile"><p id="'.$id.'">'.$role_title.'</p></div>';
 	}
 
-	public function __construct($userName) {
+	public function __construct($userName,$selector="username") {
 		$this->initClass("UserProfile",true);
 
+		if($selector=="id") { 
+			$where = 'id='.mysqli_escape_string($this->db->getConnection(),$userName);
+		} else if($selector=="username") { 
+			$where = 'username="'.mysqli_escape_string($this->db->getConnection(),$userName).'"';
+		}
 
-		$query = $this->db->query("SELECT * FROM `users` WHERE username='".mysqli_escape_string($this->db->getConnection(),$userName)."';");
-		if(mysqli_num_rows($query) == 1) {
+		$query = $this->db->query("SELECT * FROM `users` WHERE ".$where.";");
+		if($query && mysqli_num_rows($query) == 1) {
 			foreach($query as $row) {
 				$this->username = $row["username"];
 				$this->email = $row["email"];
-				echo "<!-- ROLE: ".$row["role"]." -->";
+				$this->uid = $row["id"];
+				$this->role = $row["role"];
+				if($row["blocked"] == 1) {
+					$this->blocked = true;
+				} else {
+					$this->blocked = false;
+				}
+				//echo "<!-- ROLE: ".$row["role"]." -->";
 				switch($row["role"]) {
 
 					case "adminstrator":
@@ -32,12 +46,17 @@ class UserProfile extends ClassCore {
 
 					case "webmaster":
 					case "developer":
-						$this->role_tile = $this->buildTile("Developer","Developer");
+						$this->role_tile = $this->buildTile("Developer","Entwickler");
 						$this->color = "cyan";
 						break;
 
+					case "content":
+						$this->role_tile = $this->buildTile("Content","Inhaltsbeauftragter");
+						$this->color = "#bc4755";
+						break;
+
 					default:
-						$this->role_tile = $this->buildTile("User","Nutzer");
+						$this->role_tile = $this->buildTile("User","Benutzer");
 						$this->color = "gray";
 						break;
 
@@ -70,6 +89,36 @@ class UserProfile extends ClassCore {
 
 	public function getFormattedName() {
 		return '<span style="color:'.$this->color.';">'.$this->getUsername().'</span>';
+	}
+
+	public function block() {
+		$this->db->query("UPDATE `users` SET blocked=1 WHERE id=".$this->uid.";");
+		return true;
+	}
+
+	public function getBlocked() {
+		return $this->blocked;
+	}
+
+	public function setBlocked($bl) {
+		if($bl == true) {
+			$this->db->query("UPDATE `security_tokens` SET valid=0 WHERE uid=".$this->uid.";");
+			$this->db->query("UPDATE `users` SET blocked=1 WHERE id=".$this->uid.";");
+		} else if($bl == false) {
+			$this->db->query("UPDATE `users` SET blocked=0 WHERE id=".$this->uid.";");
+		}
+	}
+
+	public function getId() {
+		return $this->uid;
+	}
+
+	public function setRole($role) {
+		$this->db->query("UPDATE `users` SET role='".mysqli_escape_string($this->db->getConnection(),$role)."' WHERE id=".$this->uid.";");
+	}
+
+	public function getRole() {
+		return $this->role;
 	}
 }
 

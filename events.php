@@ -32,7 +32,7 @@ if(isset($_GET["eid"])) {
 		?>
 <div class="event-frame">
 	<h3><?= $row["title"]; ?></h3>
-	<a href='/events.php?eid=<?= $row["id"]; ?>'>Ansehen</a><br>
+	<a href='/event/<?= $row["id"]; ?>'>Ansehen</a><br>
 </div>
 <hr>
 		<?php

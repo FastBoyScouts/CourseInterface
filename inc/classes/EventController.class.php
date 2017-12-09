@@ -8,6 +8,33 @@ class EventController extends ClassCore {
 	}
 
 
+	public function getAllEventsJson() {
+		$json = '"events":[';
+		$result = $this->db->query("SELECT * FROM `courses`;");
+		$result2 = $this->db->query("SELECT * FROM `users`;");
+		$users = array();
+		foreach($result2 as $row) {
+			$users[$row["id"]] = new UserProfile($row["id"],"id");
+		}
+		$rows = mysqli_num_rows($result);
+		$queriedRows = 1;
+		foreach($result as $row) {
+			$temp = $users[$row["creator"]];
+			$json .= '{';
+			$json .= '"title":"'.$row["title"].'",';
+			$json .= '"id":'.$row["id"].',';
+			$json .= '"creator":{"id":'.$temp->getId().',"username":"'.$temp->getUsername().'","role":"'."unknown".'"}';
+			$json .= '}';
+
+			if($queriedRows != $rows) {
+				$json .= ',';
+			}
+
+			++$queriedRows;
+		}
+		$json .= ']';
+		return $json;
+	}
 }
 
 ?>

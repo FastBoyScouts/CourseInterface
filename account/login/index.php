@@ -1,8 +1,7 @@
 <?php include($_SERVER["DOCUMENT_ROOT"]."/head.php"); ?>
+<?php if(!$loggedIn) { ?>
 <h2>Anmelden</h2>
 <?php
-
-if(!$loggedIn) {
 ?>
 <h3><?php echo $loginMessage; ?></h3>
 <form action="?loginRequest=1" method="POST">
@@ -19,9 +18,7 @@ if(!$loggedIn) {
 </form>
 <?php
 } else {
-?>
-<h2>Sie sind bereits angemeldet!</h2>
-<?php
+	echo '<p class="error">Sie sind bereits angemeldet!</p>';
 }
 ?>
 <?php include($_SERVER["DOCUMENT_ROOT"]."/footer.php"); ?>

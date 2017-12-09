@@ -8,6 +8,8 @@
 
 */
 
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
 session_start();
 
 $classes = array();
@@ -31,8 +33,13 @@ include($_SERVER["DOCUMENT_ROOT"]."/inc/functions.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/User.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/UserProfile.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Event.class.php");
+include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/EventController.class.php");
 
 $user = new User();
+
+if($settings->get("wartungsmodus")) {
+	die("<html><head><meta charset='utf-8'><title>Wartungsmodus</title></head><body><h1>Wartung</h1><h2>Wir überarbeiten diese Webseite aktuell</h2></body></html>");
+}
 
 // Initialize database
 
@@ -44,15 +51,29 @@ if(isset($_REQUEST["goto"])) {
 }
 
 if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login"])) {
-	if(!$user->login($_POST["username"], $_POST["password"])) {
-		$loginMessage = "Der Nutzer konnte nicht angemeldet werden.";
-	} else {
+	$loginResponse = $user->login($_POST["username"], $_POST["password"]);
+	if($loginResponse == "loggedin") {
 		$loginMessage = "Sie wurden angemeldet!";
 		die(header("Location: ".$goto));
-
+	} else if($loginResponse == "blocked") {
+		$loginMessage = "Der Nutzer wurde gesperrt. Bitte kontaktieren sie uns bei weiteren Fragen.";
+		$loggedIn = false;
+	} else if($loginResponse == "password") {
+		$loginMessage = "Die angegebenen Daten sind falsch";
+		$loggedIn = false;
+	} else if($loginResponse == "username") {
+		$loginMessage = "Die angegebenen Daten sind falsch";
+		$loggedIn = false;
+	} else if($loginResponse == "wrong") {
+		$loginMessage = "Die angegebenen Daten sind falsch";
+		$loggedIn = false;
+	} else {
+		$loginMessage = "Der Nutzer konnte nicht angemeldet werden.";
+		$loggedIn = false;
 	}
 } else {
 	$loginMessage = "Bitte geben sie ihre Daten ein!";
+	$loggedIn = false;
 }
 
 
@@ -68,25 +89,52 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["security_token"])) {
 	$loggedIn = false;
 }
 
+
+$predefUsername = "";
+$predefEmail = "";
+$predefAnrede = "";
+$predefFirstname = "";
+$predefLastname = "";
+$predefPhone = "";
+$predefAddress = "";
+$predefMobile = "";
+$predefPasswordVerify = "";
+$predefPassword = "";
+$predefVerifyEmail = "";
+$predefCity = "";
 if(!$loggedIn) {
 	if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["email"]) && isset($_POST["anrede"]) && isset($_POST["firstname"]) && isset($_POST["lastname"]) && isset($_POST["register"]) && isset($_POST["phone"]) && isset($_POST["address"]) && isset($_POST["mobile"]) && isset($_POST["password_verify"]) && isset($_POST["verify_email"]) && isset($_POST["city"])) {
+
+	$predefUsername = htmlspecialchars($_POST["username"]);
+	$predefEmail = htmlspecialchars($_POST["email"]);
+	$predefAnrede = htmlspecialchars($_POST["anrede"]);
+	$predefFirstname = htmlspecialchars($_POST["firstname"]);
+	$predefLastname = htmlspecialchars($_POST["lastname"]);
+	$predefPhone = htmlspecialchars($_POST["phone"]);
+	$predefMobile = htmlspecialchars($_POST["mobile"]);
+	$predefVerifyEmail = htmlspecialchars($_POST["verify_email"]);
+	$predefAddress = htmlspecialchars($_POST["address"]);
+	$predefCity = htmlspecialchars($_POST["city"]);
 	$creator_ = $user->register($_POST["username"], $_POST["password"], $_POST["password_verify"], $_POST["email"], $_POST["verify_email"], $_POST["anrede"], $_POST["firstname"], $_POST["lastname"], $_POST["phone"], $_POST["mobile"], $_POST["address"], $_POST["city"]);
-	if($creator_) {
+	if($creator_ == "ok") {
 		$registerMessage = "Ihr Benutzerkonto wurde erfolgreich erstellt. Sie können sich nun anmelden.";
 		$registerShow = "created";
 	} else if($creator_ == "username-exists") {
+		$predefUsername = "";
 		$registerMessage = "Dieser Benutzername existiert bereits!";
-		$registerShow = true;
+		$registerShow = "yes";
 	} else if($creator_ == "password-wrong") {
 		$registerMessage = "Die Passwörter stimmen nicht überein.";
-		$registerShow = true;
+		$registerShow = "yes";
 	} else if($creator_ == "email-wrong") {
+		$predefEmail = "";
+		$predefVerifyEmail = "";
 		$registerMessage = "Die E-Mail Adressen stimmen nicht überein.";
-		$registerShow = true;
+		$registerShow = "yes";
 	}
 } else {
 	$registerMessage = "Bitte füllen sie die unten genannten Felder aus.";
-	$registerShow = true;
+	$registerShow = "yes";
 }
 }
 

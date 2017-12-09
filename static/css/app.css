@@ -50,6 +50,11 @@ body {
 	background-color: red;
 }
 
+.user-tile #Content {
+	/*background-color: #bc4755;*/
+	background-color:lightgreen;
+}
+
 .trebuchet {
 	font-family:"Trebuchet MS","Arial",sans-serif;
 }

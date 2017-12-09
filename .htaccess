@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteRule ^user/(.*)/profile /profile.php?uid=$1
+RewriteRule ^event/(.*)$ /events.php?eid=$1
+RewriteRule ^acp/(.*)$ /admin/$1.php
+RewriteRule ^api/(.*)$ /api.php?action=$1
+RewriteRule ^register/$ /account/register
+RewriteRule ^register$ /account/register
