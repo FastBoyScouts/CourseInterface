@@ -34,6 +34,8 @@ include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/User.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/UserProfile.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Event.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/EventController.class.php");
+include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/FileController.class.php");
+$file = new FileController();
 
 $user = new User();
 

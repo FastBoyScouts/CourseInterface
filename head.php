@@ -15,6 +15,14 @@
   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
   <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
   <script src="/static/lib/fontawesome-free-5.0.1/svg-with-js/js/fontawesome-all.min.js"></script>
+  <script src="/static/lib/tinymce/js/tinymce/tinymce.min.js"></script>
+  <script>
+    tinymce.init({
+      selector: 'textarea.tinymce',
+      plugins: 'textcolor colorpicker',
+      toolbar: 'backcolor forecolor'
+    });
+  </script>
     
 	<style>
     <?php echo(file_get_contents($_SERVER["DOCUMENT_ROOT"]."/static/css/app.css")); ?>
