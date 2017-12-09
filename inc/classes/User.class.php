@@ -18,8 +18,12 @@ class User extends ClassCore {
 	private $city;
 	private $plz;
 	private $uid;
+	private $trdparty;
 
 	public function __construct() {
+		global $thirdparty;
+		$this->trdparty = $thirdparty;
+
 		$this->initClass("User",true);
 
 
@@ -107,6 +111,16 @@ class User extends ClassCore {
 		$firstname_temp = mysqli_escape_string($this->db->getConnection(),$firstname);
 		$lastname_temp = mysqli_escape_string($this->db->getConnection(),$lastname);
 		$anrede_temp = mysqli_escape_string($this->db->getConnection(),$anrede);
+		$mobile_temp = $this->db->escapeString($mobile);
+		$phone_temp = $this->db->escapeString($phone);
+
+		if(!$this->trdparty->validateNumber($mobile_temp)) {
+			return "mobile-invalid";
+		}
+
+		if(!$this->trdparty->validateNumber($phone_temp)) {
+			return "phone-invalid";
+		}
 
 		$q1 = $this->db->query("SELECT * FROM users WHERE username='".$username_temp."';");
 		if(mysqli_num_rows($q1) == 0) {

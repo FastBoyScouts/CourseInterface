@@ -29,6 +29,13 @@ $logger = new Logger();
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Settings.class.php");
 $settings = new Settings();
 
+include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Thirdparty.class.php");
+$thirdparty = new ThirdParty();
+
+include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/SMS.class.php");
+include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Communication.class.php");
+$communication = new Communication();
+
 include($_SERVER["DOCUMENT_ROOT"]."/inc/functions.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/User.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/UserProfile.class.php");
@@ -36,6 +43,9 @@ include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Event.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/EventController.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/FileController.class.php");
 $file = new FileController();
+
+include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Child.class.php");
+include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/ChildController.class.php");
 
 $user = new User();
 
@@ -83,7 +93,7 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["security_token"])) {
 	if($user->applyTokens($_SESSION["user_id"], $_SESSION["security_token"])) {
 		$db->query("UPDATE users SET last_activity=NOW() WHERE id=".$_SESSION["user_id"].";");
 		$loggedIn = true;
-		$registerShow = false;
+		$registerShow = "no";
 	} else {
 		$loggedIn = false;
 	}
@@ -132,6 +142,14 @@ if(!$loggedIn) {
 		$predefEmail = "";
 		$predefVerifyEmail = "";
 		$registerMessage = "Die E-Mail Adressen stimmen nicht überein.";
+		$registerShow = "yes";
+	} else if($creator_ == "mobile-invalid") {
+		$predefMobile = "";
+		$registerMessage = "Die Mobilnummer ist ungültig.";
+		$registerShow = "yes";
+	} else if($creator_ == "phone-invalid") {
+		$predefPhone = "";
+		$registerMessage = "Die Telefonnummer ist ungültig.";
 		$registerShow = "yes";
 	}
 } else {

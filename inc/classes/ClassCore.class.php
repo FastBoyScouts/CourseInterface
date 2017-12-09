@@ -3,12 +3,12 @@
 class ClassCore {
 
 	public $db;
-
 	public function __construct() {
 		
 	}
 
-	public function initClass($class_title,$db=true,$addToLogger=true) {
+	public function initClass($class_title,$db=true,$addToLogger=true,$useThirdParty=true) {
+
 		if($db) {
 			$this->connectDB();
 		}
