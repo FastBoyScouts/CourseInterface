@@ -137,6 +137,15 @@ if(!$loggedIn) {
 		$abort = false;
 
 
+	$captcha = $_POST["captcha"];
+
+	$securimage = new Securimage();
+
+	if($securimage->check($captcha) == false) {
+		$loginMessage = "Das eingegebene Captcha ist ungültig!";
+		$loggedIn = false;
+		$abort = true;
+	}
 
 	$predefUsername = htmlspecialchars($_POST["username"]);
 	$predefEmail = htmlspecialchars($_POST["email"]);

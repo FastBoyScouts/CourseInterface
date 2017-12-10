@@ -105,6 +105,27 @@ if($registerShow == "yes") {
 				</div>
 			</div>
 		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">Captcha</a>
+				</h4>
+			</div>
+			<div class="panel-collapse collapse in">
+				<div class="panel-body">
+					<div class="form-group">
+					<?php
+
+						$options = array();
+     					$options['input_name']             = 'captcha'; // change name of input element for form post
+      					$options['disable_flash_fallback'] = false; // allow flash fallback
+
+						echo Securimage::getCaptchaHtml($options);
+					?>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<button type="submit" class="btn btn-default btn-primary">Registrieren</button><a href="/account/login" class="btn btn-secondary">Anmelden</a>
 </form>
