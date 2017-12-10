@@ -14,6 +14,17 @@
 		<label for="password">Passwort:</label>
 		<input type="password" class="form-control" id="password" name="password" required="required">
 	</div>
+	<div class="form-group">
+		<label>Captcha:</label><br>
+		<?php
+
+		$options = array();
+     	$options['input_name']             = 'captcha'; // change name of input element for form post
+      	$options['disable_flash_fallback'] = false; // allow flash fallback
+
+		echo Securimage::getCaptchaHtml($options);
+		?>
+	</div>
 	<button type="submit" class="btn btn-default btn-primary">Anmelden</button>&nbsp;&nbsp;<a href="/account/register" class="btn btn-secondary">Registrieren</a>
 </form>
 <?php

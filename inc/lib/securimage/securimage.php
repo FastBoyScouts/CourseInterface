@@ -217,6 +217,7 @@
  * @author     Drew Phillips <drew@drew-phillips.com>
  *
  */
+include($_SERVER["DOCUMENT_ROOT"]."/config.private.inc.php");
 class Securimage
 {
     // All of the public variables below are securimage options
@@ -514,7 +515,7 @@ class Securimage
      * @see Securimage::$database_driver
      * @var bool
      */
-    public $use_database = false;
+    public $use_database = true;
 
     /**
      * Whether or not to skip checking if Securimage tables exist when using a
@@ -535,7 +536,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_driver = self::SI_DRIVER_SQLITE3;
+    public $database_driver = self::SI_DRIVER_MYSQL;
 
     /**
      * Database host to connect to when using mysql or postgres
@@ -546,7 +547,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_host   = 'localhost';
+    public $database_host   = DATABASE_HOST;
 
     /**
      * Database username for connection (mysql, postgres only)
@@ -554,7 +555,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_user   = '';
+    public $database_user   = DATABASE_USERNAME;
 
     /**
      * Database password for connection (mysql, postgres only)
@@ -562,7 +563,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_pass   = '';
+    public $database_pass   = DATABASE_PASSWORD;
 
     /**
      * Name of the database to select (mysql, postgres only)
@@ -570,7 +571,7 @@ class Securimage
      * @see Securimage::$database_file for SQLite
      * @var string
      */
-    public $database_name   = '';
+    public $database_name   = DATABASE_DATABASE;
 
     /**
      * Database table where captcha codes are stored
@@ -1029,11 +1030,11 @@ class Securimage
         }
 
         if (is_null($this->audio_path)) {
-            $this->audio_path = $this->securimage_path . '/audio/en/';
+            $this->audio_path = $this->securimage_path . '/audio_de/';
         }
 
         if (is_null($this->audio_noise_path)) {
-            $this->audio_noise_path = $this->securimage_path . '/audio/noise/';
+            $this->audio_noise_path = $this->securimage_path . '/audio_de/noise/';
         }
 
         if (is_null($this->audio_use_noise)) {

@@ -46,6 +46,7 @@ $file = new FileController();
 
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Child.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/ChildController.class.php");
+include($_SERVER["DOCUMENT_ROOT"]."/inc/lib/securimage/securimage.php");
 
 $user = new User();
 
@@ -62,7 +63,21 @@ if(isset($_REQUEST["goto"])) {
 	$goto = "/index.php";
 }
 
-if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login"])) {
+if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login"]) && isset($_POST["captcha"])) {
+	$abort = false;
+
+	$captcha = $_POST["captcha"];
+
+	$securimage = new Securimage();
+
+	if($securimage->check($captcha) == false) {
+		$loginMessage = "Das eingegebene Captcha ist ungültig!";
+		$loggedIn = false;
+		$abort = true;
+	}
+
+	
+	if(!$abort) {
 	$loginResponse = $user->login($_POST["username"], $_POST["password"]);
 	if($loginResponse == "loggedin") {
 		$loginMessage = "Sie wurden angemeldet!";
@@ -83,6 +98,9 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login
 		$loginMessage = "Der Nutzer konnte nicht angemeldet werden.";
 		$loggedIn = false;
 	}
+}
+
+
 } else {
 	$loginMessage = "Bitte geben sie ihre Daten ein!";
 	$loggedIn = false;
@@ -116,6 +134,9 @@ $predefVerifyEmail = "";
 $predefCity = "";
 if(!$loggedIn) {
 	if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["email"]) && isset($_POST["anrede"]) && isset($_POST["firstname"]) && isset($_POST["lastname"]) && isset($_POST["register"]) && isset($_POST["phone"]) && isset($_POST["address"]) && isset($_POST["mobile"]) && isset($_POST["password_verify"]) && isset($_POST["verify_email"]) && isset($_POST["city"])) {
+		$abort = false;
+
+
 
 	$predefUsername = htmlspecialchars($_POST["username"]);
 	$predefEmail = htmlspecialchars($_POST["email"]);
@@ -127,6 +148,7 @@ if(!$loggedIn) {
 	$predefVerifyEmail = htmlspecialchars($_POST["verify_email"]);
 	$predefAddress = htmlspecialchars($_POST["address"]);
 	$predefCity = htmlspecialchars($_POST["city"]);
+	if(!$abort) {
 	$creator_ = $user->register($_POST["username"], $_POST["password"], $_POST["password_verify"], $_POST["email"], $_POST["verify_email"], $_POST["anrede"], $_POST["firstname"], $_POST["lastname"], $_POST["phone"], $_POST["mobile"], $_POST["address"], $_POST["city"]);
 	if($creator_ == "ok") {
 		$registerMessage = "Ihr Benutzerkonto wurde erfolgreich erstellt. Sie können sich nun anmelden.";
@@ -152,6 +174,7 @@ if(!$loggedIn) {
 		$registerMessage = "Die Telefonnummer ist ungültig.";
 		$registerShow = "yes";
 	}
+}
 } else {
 	$registerMessage = "Bitte füllen sie die unten genannten Felder aus.";
 	$registerShow = "yes";
