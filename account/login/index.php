@@ -8,11 +8,11 @@
 	<input type="hidden" name="login" value="1">
 	<div class="form-group">
 		<label for="username">Nutzername:</label>
-		<input type="text" class="form-control" id="username" name="username" required="required">
+		<input type="text" class="form-control" id="username" name="username" required="required" value="<?= $predefUsername; ?>">
 	</div>
 	<div class="form-group">
 		<label for="password">Passwort:</label>
-		<input type="password" class="form-control" id="password" name="password" required="required">
+		<input type="password" class="form-control" id="password" name="password" required="required" value="<?= $predefPassword; ?>">
 	</div>
 	<div class="form-group">
 		<label>Captcha:</label><br>

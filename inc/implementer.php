@@ -63,8 +63,13 @@ if(isset($_REQUEST["goto"])) {
 	$goto = "/index.php";
 }
 
+
+$predefUsername = "";
+$predefPassword = "";
 if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login"]) && isset($_POST["captcha"])) {
 	$abort = false;
+
+	$predefUsername = htmlspecialchars($_POST["username"],ENT_QUOTES);
 
 	$captcha = $_POST["captcha"];
 
