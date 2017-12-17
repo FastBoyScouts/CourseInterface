@@ -117,16 +117,15 @@ if(isset($_REQUEST["goto"])) {
 
 $predefUsername = "";
 $predefPassword = "";
-if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login"]) && isset($_POST["captcha"])) {
+if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login"]) && isset($_POST["g-recaptcha-response"])) {
 	$abort = false;
 
 	$predefUsername = htmlspecialchars($_POST["username"],ENT_QUOTES);
 
 	$captcha = $_POST["g-recaptcha-response"];
-
-	$securimage = new Securimage();
-
-	if(true) {
+	if(json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeucDwUAAAAAI7Hr4kOVqwp9gD6uLUYrYjypl7P&response=".$captcha),true)["success"] == false) {
+		$abort = true;
+		$loginMessage = "Falsches Captcha";
 	}
 
 	

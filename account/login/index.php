@@ -18,7 +18,7 @@
 		<label>Captcha:</label><br>
 		<div class="g-recaptcha" data-sitekey="6LeucDwUAAAAAGhPmwiLA7h09l2yGcPS6HMPBx3V"></div>
 	</div>
-	<a href="javascript:submitForm();" class="btn btn-default btn-primary">Submit</a>&nbsp;&nbsp;<a href="/account/register" class="btn btn-secondary">Registrieren</a>
+	<a href="javascript:void(0);" onclick="javascript:submitForm();" class="btn btn-default btn-primary">Submit</a>&nbsp;&nbsp;<a href="/account/register" class="btn btn-secondary">Registrieren</a>
 </form>
 <script>
 

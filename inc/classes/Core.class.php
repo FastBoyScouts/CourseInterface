@@ -6,9 +6,8 @@ class Core extends ClassCore {
 		$this->initClass("Core",true);
 	}
 
-	public function curl_json($url,$method="POST",$var=array(),$contenttype = "application/x-www-form-urlencoded") {
-		$url = 'http://server.com/path';
-		$data = array();
+	public function curl_json($url,$method="POST",$var=array("________score__________"=>"123jxdhfzarhiz5jvaj"),$contenttype = "application/x-www-form-urlencoded") {
+		$data = $var;
 		foreach($var as $key=>$val) {
 			$data[urlencode($key)] = urlencode($val);
 		}
@@ -19,7 +18,7 @@ class Core extends ClassCore {
         		'header'  => "Content-type: ".$contenttype."\r\n",
         		'method'  => 'POST',
         		'content' => http_build_query($data)
-    		);
+    		)
 		);
 		$context  = stream_context_create($options);
 		$result = file_get_contents($url, false, $context);
