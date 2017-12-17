@@ -36,7 +36,7 @@ if(isset($_REQUEST["action"]) && isset($_REQUEST["file"])) {
 									case "image/png":
 									case "image/jpg":
 										?>
-										<a href="/media/<?= $f["id"]; ?>" target="_blank"><img src="<?= $f["base64"]; ?>" alt="<?= $f["title"]; ?>"></a>
+										<a href="/media/<?= $f["id"]; ?>" target="_blank"><img src="<?= $f["webpath"]; ?>" alt="<?= $f["title"]; ?>"></a>
 										<?php
 										break;
 

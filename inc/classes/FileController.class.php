@@ -58,6 +58,7 @@ class FileController extends ClassCore {
 
 	public function upload($f, $title, $type) {
 		$target_dir = $_SERVER["DOCUMENT_ROOT"]."/uploads/";
+		// OLD: $raw_target = $this->generateRandomString()."-".basename($f["name"]);
 		$raw_target = $this->generateRandomString()."-".basename($f["name"]);
 		while(file_exists($target_file)) {
 			$raw_target = $this->generateRandomString()."-".basename($f["name"]);
