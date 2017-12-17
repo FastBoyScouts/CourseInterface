@@ -37,7 +37,7 @@ class FileController extends ClassCore {
 
 	public function getAllFiles() {
 		$i = 1;
-		$result = $this->db->query("SELECT * FROM `files` WHERE available=1;");
+		$result = $this->db->query("SELECT * FROM `files` WHERE available=1 AND deleted=0;");
 		$files = array();
 		foreach($result as $row) {
 			array_push($files,$this->getFile($row["id"]));
@@ -80,6 +80,10 @@ class FileController extends ClassCore {
 
 		return true;
 
+	}
+
+	public function delete($fid) {
+		$this->db->query("UPDATE `files` SET available=0, deleted=1 WHERE id=".$this->db->escapeString($fid).";");
 	}
 
 }

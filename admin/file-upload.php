@@ -3,8 +3,10 @@
 if($user->hasPermission("admin.files.upload")) {
 if(isset($_POST["title"]) && isset($_POST["type"]) && isset($_FILES["f"])) {
 	if($file->upload($_FILES["f"],$db->escapeString($_POST["title"]),$db->escapeString($_POST["type"]))) {
+		echo '<script>window.location.href="/acp/files?msg=upload-success";</script>';
 		//die(header("Location: /acp/files?msg=upload-success"));
 	} else {
+		echo '<script>window.location.href="/acp/files?msg=upload-failure";</script>';
 		//die(header("Location: /acp/files?msg=upload-failure"));
 	}
 }

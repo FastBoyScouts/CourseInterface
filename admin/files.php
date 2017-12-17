@@ -1,6 +1,13 @@
 <?php include($_SERVER["DOCUMENT_ROOT"]."/head.php"); ?>
 <?php
 if($user->hasPermission("admin.files")) {
+if(isset($_REQUEST["action"]) && isset($_REQUEST["file"])) {
+	switch($_REQUEST["action"]) {
+		case "delete":
+			$file->delete($_REQUEST["file"]);
+			break;
+	}
+}
 ?>
 <h2>Dateien</h2>
 <div class="container">
@@ -41,6 +48,7 @@ if($user->hasPermission("admin.files")) {
 								}
 								?>
 								</td>
+								<td><a href="?action=delete&file=<?= $f["id"]; ?>">Löschen</a></td>
 							</tr>
 						<?php
 					}
