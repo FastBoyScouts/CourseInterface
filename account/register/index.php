@@ -123,43 +123,7 @@ if($registerShow == "yes") {
 	</div>
 	<a href="javascript:void(0);" onclick="javascript:submitForm();" class="btn btn-default btn-primary">Registrieren</a><a href="/account/login" class="btn btn-secondary">Anmelden</a>
 </form>
-<script>
-
-function validateForm() {
-	var $error = $('#registerMessage');
-	var fields = ["username","email","verify_email","password","password_verify","anrede","firstname","lastname","phone","mobile","address","city"];
-	var abort = false;
-	fields.forEach(function(element) {
-		if($('#'+element).val().length < 1) {
-			$('#registerMessage').html("<span style='color:red;'>Bitte füllen sie alle Felder aus!</span>");
-			window.location.href = '#top';
-			abort = true;
-		}
-	});
-
-	if(abort === true) {
-		return false;
-	}
-
-	var isHuman = grecaptcha.getResponse();
-	if(isHuman.length >= 1) {
-    	return true;
-	} else {
-		$('#registerMessage').html("<span style='color:red;'>Bitte aktivieren sie den \"Ich bin kein Roboter\"-Haken!</span>");
-		return false;
-	}
-
-	
-}
-
-function submitForm() {
-	if(validateForm()) {
-		$('#registerForm').submit();
-	} else {
-		window.location.href="#top";
-	}
-}
-</script>
+<script>function validateForm() {var $error = $('#registerMessage');var fields = ["username","email","verify_email","password","password_verify","anrede","firstname","lastname","phone","mobile","address","city"];var abort = false;fields.forEach(function(element) {if($('#'+element).val().length < 1) {$('#registerMessage').html("<span style='color:red;'>Bitte füllen sie alle Felder aus!</span>");window.location.href = '#top';abort = true;}});if(abort === true) {return false;}var isHuman = grecaptcha.getResponse();if(isHuman.length >= 1) {return true;} else {$('#registerMessage').html("<span style='color:red;'>Bitte aktivieren sie den \"Ich bin kein Roboter\"-Haken!</span>");return false;}}function submitForm() {if(validateForm()) {$('#registerForm').submit();} else {window.location.href="#top";}}</script>
 <?php
 } else if($registerShow == "created") {
 	?>
@@ -275,27 +239,7 @@ function submitForm() {
 	</div>
 	<button type="submit" class="btn btn-default btn-primary">Registrieren</button><a href="/account/login" class="btn btn-secondary">Anmelden</a>
 </form>
-<script>
-
-function validateForm() {
-	var isHuman = grecaptcha.getResponse();
-	if(isHuman.length >= 1) {
-    	return true;
-	} else {
-		return false;
-	}
-
-	
-}
-
-function submitForm() {
-	if(validateForm()) {
-		$('#registerForm').submit();
-	} else {
-		$('#registerMessage').html("<span style='color:red;'>Bitte aktivieren sie den \"Ich bin kein Roboter\"-Haken!</span>");
-	}
-}
-</script>
+<script>function validateForm() {var $error = $('#registerMessage');var fields = ["username","email","verify_email","password","password_verify","anrede","firstname","lastname","phone","mobile","address","city"];var abort = false;fields.forEach(function(element) {if($('#'+element).val().length < 1) {$('#registerMessage').html("<span style='color:red;'>Bitte füllen sie alle Felder aus!</span>");window.location.href = '#top';abort = true;}});if(abort === true) {return false;}var isHuman = grecaptcha.getResponse();if(isHuman.length >= 1) {return true;} else {$('#registerMessage').html("<span style='color:red;'>Bitte aktivieren sie den \"Ich bin kein Roboter\"-Haken!</span>");return false;}}function submitForm() {if(validateForm()) {$('#registerForm').submit();} else {window.location.href="#top";}}</script>
 <?php
 }
 ?>
