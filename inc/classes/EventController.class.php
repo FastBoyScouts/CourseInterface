@@ -35,6 +35,16 @@ class EventController extends ClassCore {
 		$json .= ']';
 		return $json;
 	}
+
+	public function getAllEvents() {
+		$events = array();
+		$result = $this->db->query("SELECT * FROM `courses`;");
+		foreach($result as $row) {
+			$creator = new UserProfile($row["creator"],"id");
+			array_push($events,array("id"=>$row["id"],"title"=>$row["title"],"creator_name"=>$creator->getUsername()));
+		}
+		return $events;
+	}
 }
 
 ?>
