@@ -24,9 +24,22 @@
 
 function validateForm() {
 	var isHuman = grecaptcha.getResponse();
+	var fields = ["username","password"];
+	var abort = false;
+	fields.forEach(function(elem) {
+		if($('#'+elem).val().length < 1) {
+			
+			abort = true;
+		}
+	});
+	if(abort) {
+		$('#loginMessage').html("<span style='color:red;'>Bitte füllen sie alle Felder aus!</span>");
+		return false;
+	}
 	if(isHuman.length >= 1) {
     	return true;
 	} else {
+		$('#loginMessage').html("<span style='color:red;'>Bitte aktivieren sie den \"Ich bin kein Roboter\"-Haken!</span>");
 		return false;
 	}
 

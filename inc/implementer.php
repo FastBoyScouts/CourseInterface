@@ -123,7 +123,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login
 	$predefUsername = htmlspecialchars($_POST["username"],ENT_QUOTES);
 
 	$captcha = $_POST["g-recaptcha-response"];
-	if(json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeucDwUAAAAAI7Hr4kOVqwp9gD6uLUYrYjypl7P&response=".$captcha),true)["success"] == false) {
+	if(json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeucDwUAAAAAI7Hr4kOVqwp9gD6uLUYrYjypl7P&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']),true)["success"] == false) {
 		$abort = true;
 		$loginMessage = "Falsches Captcha";
 	}
@@ -189,11 +189,9 @@ if(!$loggedIn) {
 		$abort = false;
 
 
-	$captcha = $_POST["captcha"];
+	$captcha = $_POST["g-recaptcha-response"];
 
-	$securimage = new Securimage();
-
-	if($securimage->check($captcha) == false) {
+	if(json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeucDwUAAAAAI7Hr4kOVqwp9gD6uLUYrYjypl7P&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']),true)["success"] == false) {
 		$loginMessage = "Das eingegebene Captcha ist ungültig!";
 		$loggedIn = false;
 		$abort = true;

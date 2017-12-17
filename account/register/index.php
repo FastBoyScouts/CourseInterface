@@ -4,8 +4,8 @@
 
 if($registerShow == "yes") {
 ?>
-<h3><?php echo $registerMessage; ?></h3>
-<form action="?registerRequest=1" method="POST">
+<h3 id="registerMessage"><?= $registerMessage; ?></h3>
+<form action="?registerRequest=1" method="POST" id="registerForm">
 	<input type="hidden" name="register" value="1">
 	<div class="panelgroup" id="accordion">
 		<div class="panel panel-default">
@@ -18,7 +18,7 @@ if($registerShow == "yes") {
 				<div class="panel-body">
 					<div class="form-group">
 						<label for="username">Nutzername:</label>
-						<input type="text" class="form-control" id="username" name="username" required="required" value="<?= $predefUsername; ?>">
+						<input type="text" class="form-control" id="username" name="username" required="required" value="">
 					</div>
 					<div class="form-group">
 						<label for="email">E-Mail:</label>
@@ -114,14 +114,52 @@ if($registerShow == "yes") {
 			<div class="panel-collapse collapse in">
 				<div class="panel-body">
 					<div class="form-group">
+						<label for="captcha">Captcha:</label><br>
 						<div class="g-recaptcha" data-sitekey="6LeucDwUAAAAAGhPmwiLA7h09l2yGcPS6HMPBx3V"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<button type="submit" class="btn btn-default btn-primary">Registrieren</button><a href="/account/login" class="btn btn-secondary">Anmelden</a>
+	<a href="javascript:void(0);" onclick="javascript:submitForm();" class="btn btn-default btn-primary">Registrieren</a><a href="/account/login" class="btn btn-secondary">Anmelden</a>
 </form>
+<script>
+
+function validateForm() {
+	var $error = $('#registerMessage');
+	var fields = ["username","email","verify_email","password","password_verify","anrede","firstname","lastname","phone","mobile","address","city"];
+	var abort = false;
+	fields.forEach(function(element) {
+		if($('#'+element).val().length < 1) {
+			$('#registerMessage').html("<span style='color:red;'>Bitte füllen sie alle Felder aus!</span>");
+			window.location.href = '#top';
+			abort = true;
+		}
+	});
+
+	if(abort === true) {
+		return false;
+	}
+
+	var isHuman = grecaptcha.getResponse();
+	if(isHuman.length >= 1) {
+    	return true;
+	} else {
+		$('#registerMessage').html("<span style='color:red;'>Bitte aktivieren sie den \"Ich bin kein Roboter\"-Haken!</span>");
+		return false;
+	}
+
+	
+}
+
+function submitForm() {
+	if(validateForm()) {
+		$('#registerForm').submit();
+	} else {
+		window.location.href="#top";
+	}
+}
+</script>
 <?php
 } else if($registerShow == "created") {
 	?>
@@ -133,8 +171,8 @@ if($registerShow == "yes") {
 	<?php
 } else {
 ?>
-<h3>Dieser Nutzer existiert bereits!</h3>
-<form action="?registerRequest=1" method="POST">
+<h3 id="registerMessage">Dieser Nutzer existiert bereits!</h3>
+<form action="?registerRequest=1" method="POST" id="registerForm">
 	<input type="hidden" name="register" value="1">
 	<div class="panelgroup" id="accordion">
 		<div class="panel panel-default">
@@ -237,6 +275,27 @@ if($registerShow == "yes") {
 	</div>
 	<button type="submit" class="btn btn-default btn-primary">Registrieren</button><a href="/account/login" class="btn btn-secondary">Anmelden</a>
 </form>
+<script>
+
+function validateForm() {
+	var isHuman = grecaptcha.getResponse();
+	if(isHuman.length >= 1) {
+    	return true;
+	} else {
+		return false;
+	}
+
+	
+}
+
+function submitForm() {
+	if(validateForm()) {
+		$('#registerForm').submit();
+	} else {
+		$('#registerMessage').html("<span style='color:red;'>Bitte aktivieren sie den \"Ich bin kein Roboter\"-Haken!</span>");
+	}
+}
+</script>
 <?php
 }
 ?>
