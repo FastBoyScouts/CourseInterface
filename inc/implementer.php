@@ -8,7 +8,7 @@
 
 */
 
-error_reporting(E_WARNING | E_ERROR);
+error_reporting(E_ERROR | E_CORE_ERROR);
 
 function errorHandler($fehlercode, $fehlertext, $fehlerdatei, $fehlerzeile) {
 
