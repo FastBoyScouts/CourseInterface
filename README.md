@@ -11,4 +11,4 @@
 - **_Replace the settings with your own values!_**
 
 ### Legal notice
-This software has been privately created for **FastBoyScouts** and has been coded by their developers ([MagicMarvMan](https://www.google.com "MagicMarvMan")).
+This software has been privately created for **FastBoyScouts** and has been coded by their developers ([MagicMarvMan](https://github.com/MagicMarvMan "MagicMarvMan")).
