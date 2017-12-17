@@ -14,18 +14,18 @@ if(isset($_POST["title"]) && isset($_POST["type"]) && isset($_FILES["f"])) {
 	<form action='' method='post' enctype='multipart/form-data'>
 		<div class="form-group">
 			<label for="title">Titel:</label><br>
-			<input type="text" id="title" name="title" required="required">
+			<input type="text" id="title" name="title" required="required" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="type">Typ:</label><br>
-			<select name="type" id="type" required="required">
+			<select name="type" id="type" required="required" class="form-control">
 				<option value="image">Bild</option>
 				<option value="course-material">Kursmaterial</option>
 			</select>
 		</div>
 		<div class="form-group">
 			<label for="f">Datei:</label><br>
-			<input type="file" name="f" id="f" required="required">
+			<input type="file" name="f" id="f" required="required" class="form-control">
 		</div>
 		<div class="form-group">
 			<input type="submit" value="Hochladen" class="btn btn-default btn-primary">
