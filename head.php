@@ -23,7 +23,7 @@
       toolbar: 'backcolor forecolor'
     });
   </script>
-  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script src='https://www.google.com/recaptcha/api.js?onload=captchaCallback' async defer></script>
     
 	<style>
     <?php echo(file_get_contents($_SERVER["DOCUMENT_ROOT"]."/static/css/app.css")); ?>

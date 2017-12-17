@@ -122,14 +122,11 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login
 
 	$predefUsername = htmlspecialchars($_POST["username"],ENT_QUOTES);
 
-	$captcha = $_POST["captcha"];
+	$captcha = $_POST["g-recaptcha-response"];
 
 	$securimage = new Securimage();
 
-	if($securimage->check($captcha) == false) {
-		$loginMessage = "Das eingegebene Captcha ist ungültig!";
-		$loggedIn = false;
-		$abort = true;
+	if(true) {
 	}
 
 	
