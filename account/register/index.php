@@ -114,14 +114,7 @@ if($registerShow == "yes") {
 			<div class="panel-collapse collapse in">
 				<div class="panel-body">
 					<div class="form-group">
-					<?php
-
-						$options = array();
-     					$options['input_name']             = 'captcha'; // change name of input element for form post
-      					$options['disable_flash_fallback'] = false; // allow flash fallback
-
-						echo Securimage::getCaptchaHtml($options);
-					?>
+						<div class="g-recaptcha" data-sitekey="6LeucDwUAAAAAGhPmwiLA7h09l2yGcPS6HMPBx3V"></div>
 					</div>
 				</div>
 			</div>

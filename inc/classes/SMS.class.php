@@ -8,13 +8,13 @@ class SMS extends ClassCore {
 	public function __construct($api_key="b8d5653c",$api_secret = "295278a09bce5090") {
 		$this->initClass("SMS",false);
 		$this->client = new Nexmo\Client(new Nexmo\Client\Credentials\Basic($api_key, $api_secret));
-		//$this->send("+491724321458","Hallo Papi ");
+		//$this->send("+4915164583080","Hallo Papi ");
 	}
 
 	public function send($phone,$message) {
 		$message = $this->client->message()->send([
     		'to' => $phone,
-    		'from' => "FBS",
+    		'from' => $this->settings->get("message-sender"),	 
     		'text' => $message
 		]);
 		$this->balance = $message["remaining-balance"];

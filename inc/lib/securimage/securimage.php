@@ -536,7 +536,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_driver = self::SI_DRIVER_MYSQL;
+    public $database_driver = self::SI_DRIVER_SQLITE3;
 
     /**
      * Database host to connect to when using mysql or postgres
@@ -1030,7 +1030,7 @@ class Securimage
         }
 
         if (is_null($this->audio_path)) {
-            $this->audio_path = $this->securimage_path . '/audio_de/';
+            $this->audio_path = $this->securimage_path . '/audio_de_1/';
         }
 
         if (is_null($this->audio_noise_path)) {

@@ -8,7 +8,55 @@
 
 */
 
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+error_reporting(E_WARNING | E_ERROR);
+
+function errorHandler($fehlercode, $fehlertext, $fehlerdatei, $fehlerzeile) {
+
+	if (!(error_reporting() & $fehlercode)) {
+        // Dieser Fehlercode ist nicht in error_reporting enthalten
+        return;
+    }
+
+    switch($fehlercode) {
+    	case E_USER_WARNING:
+    	case E_WARNING:
+    		echo '
+<div class="alert alert-warning alert-dismissible fade in">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong>Warning!</strong> '.$fehlertext.'
+</div>
+    		';
+    		break;
+
+    	case E_USER_ERROR:
+    	case E_ERROR:
+    		echo '
+<div class="alert alert-danger alert-dismissible fade in">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong>Error!</strong> '.$fehlertext.'
+</div>
+    		';
+    		break;
+
+    	case E_USER_NOTICE:
+    	case E_NOTICE:
+    		echo '
+<div class="alert alert-info alert-dismissible fade in">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong>Notice!</strong> '.$fehlertext.'
+</div>
+    		';
+    		break;
+
+    	default:
+    		echo '';
+    		break;
+    }
+
+	return true;
+}
+
+$alter_error_handler = set_error_handler("errorHandler");
 
 session_start();
 
@@ -23,6 +71,9 @@ $db = new Database( $config["database"]["server"], $config["database"]["username
 
 
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/ClassCore.class.php");
+include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Core.class.php");
+$core = new Core();
+
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Logger.class.php");
 $logger = new Logger();
 

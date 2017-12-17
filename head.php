@@ -23,12 +23,14 @@
       toolbar: 'backcolor forecolor'
     });
   </script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
     
 	<style>
     <?php echo(file_get_contents($_SERVER["DOCUMENT_ROOT"]."/static/css/app.css")); ?>
   </style>
 </head>
 <body>
+<header>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -57,6 +59,12 @@
         $admin = array();
         $admin["users"] = false;
         $admin["permissions"] = false;
+        $admin["files"] = false;
+
+        if($user->hasPermission("admin.files")) {
+          ++$adminFrames;
+          $admin["files"] = true;
+        }
 
         if($user->hasPermission("admin.users")) {
           ++$adminFrames;
@@ -81,6 +89,11 @@
           <li><a href="/acp/permissions">Rechteverwaltung</a></li>
           <?php
         }
+          if($admin["files"]) {
+            ?>
+              <li><a href="/acp/files">Dateiverwaltung</a></li>
+            <?php
+          }
         ?>
           </ul>
         </li>
@@ -99,9 +112,10 @@
       <?php
   		} else {
   	?>
-<ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav navbar-right" style="margin-right:5px;">
+        <?php $temp = new UserProfile($user->getId(),"id"); ?>
         <li><?php
-        $temp = new UserProfile($user->getId(),"id");
+        
         echo $temp->getRoleTile(); ?></li>
       </ul>
     <?php
@@ -109,3 +123,11 @@
   ?>
   </div>
 </nav>
+</header>
+<main>
+<div class="container">
+<noscript>
+  <div class="alert alert-danger">
+    <strong>Achtung!</strong> Diese Webseite funktioniert ohne <strong>JavaScript</strong> nicht korrekt!
+  </div>
+</noscript>

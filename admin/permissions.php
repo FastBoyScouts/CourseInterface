@@ -89,7 +89,7 @@ foreach($result as $row) {
 				$db->query("UPDATE `permissions` SET active=1 WHERE id=".mysqli_escape_string($db->getConnection(),$_REQUEST["perm"]).";");
 			}
 		}
-		die(header("Location: ?action=list"));
+		echo '<script>location.href="?action=list";</script>';
 	} else { echo '<p class="error">Das angegebene <b>Recht</b> ist ungültig! <a href="?action=list">Zur&uuml;ck</a></p>'; }
 		
 	} else { echo '<p class="error">Es wurde kein <b>Recht</b>angegeben! <a href="?action=list">Zur&uuml;ck</a></p>';}
@@ -98,7 +98,7 @@ foreach($result as $row) {
 		$result = $db->query("SELECT * FROM `permissions` WHERE id=".mysqli_escape_string($db->getConnection(),$_REQUEST["perm"]).";");
 		if(mysqli_num_rows($result) == 1) {
 			$db->query("DELETE FROM `permissions` WHERE id=".mysqli_escape_string($db->getConnection(),$_REQUEST["perm"]).";");
-			die(header("Location: ?action=list&msg=deleted"));
+			echo '<script>location.href="?action=list";</script>';
 		} else { echo '<p class="error">Das angegebene <b>Recht</b> ist ungültig! <a href="?action=list">Zur&uuml;ck</a></p>'; }
 	} else { echo '<p class="error">Es wurde kein <b>Recht</b>angegeben! <a href="?action=list">Zur&uuml;ck</a></p>';}
 }

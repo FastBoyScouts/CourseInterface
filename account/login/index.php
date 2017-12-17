@@ -4,7 +4,7 @@
 <?php
 ?>
 <h3><?php echo $loginMessage; ?></h3>
-<form action="?loginRequest=1" method="POST">
+<form action="?loginRequest=1" method="POST" id="loginForm">
 	<input type="hidden" name="login" value="1">
 	<div class="form-group">
 		<label for="username">Nutzername:</label>
@@ -16,17 +16,28 @@
 	</div>
 	<div class="form-group">
 		<label>Captcha:</label><br>
-		<?php
-
-		$options = array();
-     	$options['input_name']             = 'captcha'; // change name of input element for form post
-      	$options['disable_flash_fallback'] = false; // allow flash fallback
-
-		echo Securimage::getCaptchaHtml($options);
-		?>
+		<div class="g-recaptcha" data-sitekey="6LeucDwUAAAAAGhPmwiLA7h09l2yGcPS6HMPBx3V"></div>
 	</div>
-	<button type="submit" class="btn btn-default btn-primary">Anmelden</button>&nbsp;&nbsp;<a href="/account/register" class="btn btn-secondary">Registrieren</a>
+	<button onclick="javascript:submitForm();">Registrieren</button>&nbsp;&nbsp;<a href="/account/register" class="btn btn-secondary">Registrieren</a>
 </form>
+<script>
+var isHuman = grecaptcha.getResponse();
+function validateForm() {
+	if(isHuman.length == 0) {
+    	return false;
+	}
+
+	return false;
+}
+
+function submitForm() {
+	if(validateForm()) {
+		$('#loginForm').submit();
+	} else {
+		alert("Bitte aktivieren sie den \"Ich bin kein Roboter \"-Haken!");
+	}
+}
+</script>
 <?php
 } else {
 	echo '<p class="error">Sie sind bereits angemeldet!</p>';
