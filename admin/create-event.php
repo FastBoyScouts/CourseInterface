@@ -20,7 +20,7 @@
 	</div>
 	<div class="form-group">
 		<label for="about">Über den Kurs:</label>
-		<textarea name="about" id="about" required="required" id="tinymce"><p>Hier können sie frei etwas über den Kurs <b>schreiben</b>!</p></textarea>
+		<textarea name="about" id="about" required="required" class="tinymce"><p>Hier können sie frei etwas über den Kurs <b>schreiben</b>!</p></textarea>
 	</div>
 	<input type="submit" class="btn btn-default btn-primary" value="Erstellen">
 </form>
