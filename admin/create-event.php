@@ -7,12 +7,12 @@
 		<input type="text" class="form-control" id="title" name="title" required>
 	</div>
 	<div class="form-group">
-		<label for="registration_opened">registration_opened:</label>
-		<input type="text" class="form-control" id="registration_opened" name="registration_opened" required>
+		<label for="registration_opened">Registrierung geöffnet <i>ab</i>:</label>
+		<input type="date" class="form-control" id="registration_opened" name="registration_opened" required>
 	</div>
 	<div class="form-group">
-		<label for="registration_closed">registration_closed:</label>
-		<input type="text" class="form-control" id="registration_closed" name="registration_closed" required>
+		<label for="registration_closed">Registrierung geschlossen <i>ab</i>:</label>
+		<input type="date" class="form-control" id="registration_closed" name="registration_closed" required>
 	</div>
 	<div class="form-group">
 		<label for="location">Standort:</label>
