@@ -16,7 +16,7 @@
 	</div>
 	<div class="form-group">
 		<label for="location">Standort:</label>
-		<textarea name="location" id="location" required></textarea>
+		<textarea name="location" id="location" class="form-control" required></textarea>
 	</div>
 	<div class="form-group">
 		<label for="about">Über den Kurs:</label>
