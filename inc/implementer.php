@@ -1,5 +1,5 @@
 <?php
-$currentUrl = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+
 /*
 
 	THIS IS THE IMPLEMENTER SCRIPT FOR THE COURSE-INTERFACE.
@@ -65,6 +65,10 @@ $alter_error_handler = set_error_handler("errorHandler");
 session_start();
 
 $classes = array();
+
+
+
+include($_SERVER["DOCUMENT_ROOT"]."/inc/functions.php");
 
 include($_SERVER["DOCUMENT_ROOT"]."/vendor/autoload.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/variables.inc.php");
@@ -252,7 +256,6 @@ if(!$loggedIn) {
 	$registerShow = "yes";
 }
 }
-
 
 
 

@@ -25,6 +25,11 @@ class Core extends ClassCore {
 		if ($result === FALSE) { return false; }
 		return json_decode($result);
 	}
+
+	public function url_contains($key) {
+		$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+		return (strpos($url,$key) !== false);
+	}
 }
 
 ?>
