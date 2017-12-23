@@ -53,10 +53,20 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/account" id="menu-dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mein Konto</a>
-            <div class="dropdown-menu" aria-labelledby="mebu-dropdown01">
-              <a class="dropdown-item" href="/account/login">Anmelden</a>
-              <a class="dropdown-item" href="/account/register">Registrieren</a>
-              <a class="dropdown-item" href="/account/">Mein Konto</a>
+            <div class="dropdown-menu" aria-labelledby="menu-dropdown01">
+              <?php
+              if($user->isLoggedIn()) {
+                ?>
+                <a href="#" class="dropdown-item">Willkommen, <?= $user->getUsername(); ?>!</a>
+                <a class="dropdown-item" href="/account/logout">Abmelden</a>
+                <?php
+              } else {
+                ?>
+                <a href="/account/login" class="dropdown-item">Anmelden</a>
+                <a href="/account/register" class="dropdown-item">Registrieren</a>
+                <?php
+              }
+              ?>
             </div>
           </li>
         </ul>
