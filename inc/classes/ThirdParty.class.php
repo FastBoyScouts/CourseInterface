@@ -8,7 +8,7 @@ class ThirdParty extends ClassCore {
 		$this->initClass("3rdParty",false);
 	}
 
-	public function getMobileData($number,$api_key=self::NUMVERIFY_API_KEY) {
+	public function getMobileData($number,$api_key=$this->settings->get("numverify_key")) {
 		$ch = curl_init('http://apilayer.net/api/validate?access_key='.$api_key.'&number='.$number.'');  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$json = curl_exec($ch);

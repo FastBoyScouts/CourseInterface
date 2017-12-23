@@ -20,7 +20,7 @@ class User extends ClassCore {
 	private $uid;
 	private $trdparty;
 
-	const NUMVERIFY_ENABLED = USE_NUMVERIFY;
+	
 
 	public function __construct() {
 		global $thirdparty;
@@ -116,7 +116,7 @@ class User extends ClassCore {
 		$mobile_temp = $this->db->escapeString($mobile);
 		$phone_temp = $this->db->escapeString($phone);
 
-		if(self::NUMVERIFY_ENABLED) {
+		if($this->settings->get("use_numverify")) {
 			if(!$this->trdparty->validateNumber($mobile_temp)) {
 				return "mobile-invalid";
 			}
