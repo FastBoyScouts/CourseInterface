@@ -26,8 +26,12 @@ class Core extends ClassCore {
 		return json_decode($result);
 	}
 
+	public function get_url() {
+		return 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+	}
+
 	public function url_contains($key) {
-		$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+		$url = $this->getUrl();
 		return (strpos($url,$key) !== false);
 	}
 }
