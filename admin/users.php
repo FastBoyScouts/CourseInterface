@@ -118,6 +118,8 @@ while($row = mysqli_fetch_assoc($query)) {
 		} else {echo '<p class="error">Keine Rolle angegeben! <a href="?action=list">Zur&uuml;ck</a></p>';}
 		
 	}
+} else if($action == "download") {
+	
 }
 
 
