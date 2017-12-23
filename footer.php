@@ -1,6 +1,6 @@
 
-</div>
 </main>
+<footer>
 <br>
 <hr>
 <br>
@@ -24,6 +24,8 @@ Queried <b><?= $settings->countLoadedSettings(); ?></b> settings.
 <?php
 }
 ?>
+</footer>
+</div>
 <script src="/static/js/app.js"></script>
 </body>
 </html>
