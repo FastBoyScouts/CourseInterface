@@ -26,15 +26,21 @@ class Core extends ClassCore {
 		return json_decode($result);
 	}
 
-	public function get_url() {
-		return 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-	}
-
-	public function get_request_uri() {
+	public function getRequestUri() {
 		return $_SERVER["REQUEST_URI"];
 	}
 
-	public function url_contains($key) {
+	public function getServerName() {
+		return $_SERVER["SERVER_NAME"];
+	}
+
+	public function getUrl() {
+		return 'http://' . $this->getServerName() . $this->getRequestUri();
+	}
+
+
+
+	public function urlContains($key) {
 		$url = $this->getUrl();
 		return (strpos($url,$key) !== false);
 	}
