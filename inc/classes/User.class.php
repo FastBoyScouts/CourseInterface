@@ -20,6 +20,8 @@ class User extends ClassCore {
 	private $uid;
 	private $trdparty;
 
+	const NUMVERIFY_ENABLED = USE_NUMVERIFY;
+
 	public function __construct() {
 		global $thirdparty;
 		$this->trdparty = $thirdparty;
@@ -114,13 +116,16 @@ class User extends ClassCore {
 		$mobile_temp = $this->db->escapeString($mobile);
 		$phone_temp = $this->db->escapeString($phone);
 
-		if(!$this->trdparty->validateNumber($mobile_temp)) {
-			return "mobile-invalid";
-		}
+		if(self::NUMVERIFY_ENABLED) {
+			if(!$this->trdparty->validateNumber($mobile_temp)) {
+				return "mobile-invalid";
+			}
 
-		if(!$this->trdparty->validateNumber($phone_temp)) {
-			return "phone-invalid";
+			if(!$this->trdparty->validateNumber($phone_temp)) {
+				return "phone-invalid";
+			}
 		}
+		
 
 		$q1 = $this->db->query("SELECT * FROM users WHERE username='".$username_temp."';");
 		if(mysqli_num_rows($q1) == 0) {

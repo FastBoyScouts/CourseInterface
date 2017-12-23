@@ -10,6 +10,7 @@
 
 error_reporting(E_ERROR | E_CORE_ERROR);
 
+/*
 function errorHandler($fehlercode, $fehlertext, $fehlerdatei, $fehlerzeile) {
 
 	if (!(error_reporting() & $fehlercode)) {
@@ -57,6 +58,7 @@ function errorHandler($fehlercode, $fehlertext, $fehlerdatei, $fehlerzeile) {
 }
 
 $alter_error_handler = set_error_handler("errorHandler");
+*/
 
 session_start();
 
@@ -122,11 +124,16 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["login
 
 	$predefUsername = htmlspecialchars($_POST["username"],ENT_QUOTES);
 
-	$captcha = $_POST["g-recaptcha-response"];
-	if(json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeucDwUAAAAAI7Hr4kOVqwp9gD6uLUYrYjypl7P&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']),true)["success"] == false) {
+		$captcha = $_POST["g-recaptcha-response"];
+		$fgc = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$settings->get("recaptcha_secret")."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
+	echo $fgc;
+
+		if(json_decode($fgc,true)["success"] == false) {
 		$abort = true;
 		$loginMessage = "Falsches Captcha";
 	}
+	
+	
 
 	
 	if(!$abort) {
@@ -191,11 +198,13 @@ if(!$loggedIn) {
 
 	$captcha = $_POST["g-recaptcha-response"];
 
-	if(json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeucDwUAAAAAI7Hr4kOVqwp9gD6uLUYrYjypl7P&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']),true)["success"] == false) {
-		$loginMessage = "Das eingegebene Captcha ist ungültig!";
-		$loggedIn = false;
+	if($settings->get("verify_recaptcha")) {
+		if(json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$settings->get("recaptcha_secret")."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']),true)["success"] == false) {
 		$abort = true;
+		$loginMessage = "Falsches Captcha";
 	}
+	}
+	
 
 	$predefUsername = htmlspecialchars($_POST["username"]);
 	$predefEmail = htmlspecialchars($_POST["email"]);

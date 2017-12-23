@@ -18,7 +18,7 @@
 	</div>
 	<div class="form-group">
 		<label>Captcha:</label><br>
-		<div class="g-recaptcha" data-sitekey="6LeucDwUAAAAAGhPmwiLA7h09l2yGcPS6HMPBx3V"></div>
+		<div class="g-recaptcha" data-sitekey="<?= $settings->get("recaptcha_public"); ?>"></div>
 	</div>
 	<a href="javascript:void(0);" onclick="javascript:submitForm();" class="btn btn-default btn-primary">Anmelden</a>&nbsp;&nbsp;<a href="/account/register" class="btn btn-secondary">Registrieren</a>
 </form>

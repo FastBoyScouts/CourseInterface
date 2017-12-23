@@ -2,11 +2,13 @@
 
 class ThirdParty extends ClassCore {
 
+	const NUMVERIFY_API_KEY = NUMVERIFY_API_TOKEN;
+
 	public function __construct() {
 		$this->initClass("3rdParty",false);
 	}
 
-	public function getMobileData($number,$api_key="6d32aa725a9a8f9dafc5dfc5a66c891e") {
+	public function getMobileData($number,$api_key=self::NUMVERIFY_API_KEY) {
 		$ch = curl_init('http://apilayer.net/api/validate?access_key='.$api_key.'&number='.$number.'');  
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$json = curl_exec($ch);

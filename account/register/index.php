@@ -115,7 +115,7 @@ if($registerShow == "yes") {
 				<div class="card-body">
 					<div class="form-group">
 						<label for="captcha">Captcha:</label><br>
-						<div class="g-recaptcha" data-sitekey="6LeucDwUAAAAAGhPmwiLA7h09l2yGcPS6HMPBx3V"></div>
+						<div class="g-recaptcha" data-sitekey="<?= $settings->get("recaptcha_public"); ?>"></div>
 					</div>
 				</div>
 			</div>
