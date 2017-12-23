@@ -30,6 +30,10 @@ class Core extends ClassCore {
 		return 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 	}
 
+	public function get_request_uri() {
+		return $_SERVER["REQUEST_URI"];
+	}
+
 	public function url_contains($key) {
 		$url = $this->getUrl();
 		return (strpos($url,$key) !== false);
