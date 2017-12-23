@@ -100,7 +100,6 @@ $file = new FileController();
 
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/Child.class.php");
 include($_SERVER["DOCUMENT_ROOT"]."/inc/classes/ChildController.class.php");
-include($_SERVER["DOCUMENT_ROOT"]."/inc/lib/securimage/securimage.php");
 
 $user = new User();
 
