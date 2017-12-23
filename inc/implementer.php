@@ -8,8 +8,10 @@
 
 */
 
-error_reporting(E_ERROR | E_CORE_ERROR);
+//error_reporting(E_ERROR | E_CORE_ERROR);
 
+
+/*
 function errorHandler($fehlercode, $fehlertext, $fehlerdatei, $fehlerzeile) {
 
 	if (!(error_reporting() & $fehlercode)) {
@@ -57,7 +59,7 @@ function errorHandler($fehlercode, $fehlertext, $fehlerdatei, $fehlerzeile) {
 }
 
 $alter_error_handler = set_error_handler("errorHandler");
-
+*/
 
 session_start();
 
