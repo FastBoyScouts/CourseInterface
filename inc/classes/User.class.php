@@ -156,6 +156,10 @@ class User extends ClassCore {
 		}
 	}
 
+	public function getUsername() {
+		return $this->getUserData()["username"];
+	}
+
 	public function getId() {
 		return $this->getUserData()["id"];
 	}
